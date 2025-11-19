@@ -1,4 +1,5 @@
 # koroad-crypt-service
+version 1.0.0
 
 AWS Lambda utility for encrypting and decrypting Koroad driver-license payloads using the official `dlv_koroad.jar` ARIA library.  
 This function is designed to be invoked **directly by other backend services or Lambdas**, not via API Gateway.
@@ -8,9 +9,43 @@ This function is designed to be invoked **directly by other backend services or 
 - `src/main/java/com/koroad/crypt` – Lambda handler, crypto service, and DTOs.
 - `sample/encryptLibTest1.jsp` – Legacy JSP sample showing low-level library usage.
 - `DriverLicenseInformation–VerificationSystemHTTPIntegrationGuide_V1.6.pdf` – Official protocol guide.
+- `test_path/*.json` – Sample event payloads for testing the Lambda on AWS.
 
 ## Build & Deploy
 Prerequisites: Java 11, Gradle, Node.js 18+, `serverless` v3, and AWS credentials.
+
+### Installing corretto(OpenJDK) version 11 
+brew tap homebrew/cask-versions
+brew cask install corretto11
+
+### Setup environment for Java 11
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+export PATH=$JAVA_HOME/bin:$PATH
+
+### Verify Java version
+java -version
+
+brew install nvm
+
+### Add NVM to your path and initialize it (add these lines to your ~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc)
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+echo '[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"' >> ~/.zshrc
+echo '[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"' >> ~/.zshrc
+
+### Reload your shell configuration
+source ~/.zshrc
+
+### Verify NVM installation
+nvm --version
+
+### Install Node.js using NVM
+nvm install 20
+
+### Verify Node.js installation
+node -v
+
+### Installing serverless
+npm install -g serverless@3
 
 ```bash
 # Build Lambda artifact
@@ -28,6 +63,18 @@ The Serverless config (`serverless.yml`) packages `build/distributions/koroad-cr
 ## Runtime Configuration
 - `KOROAD_CLIENT_SECRET` (env var) – Koroad client secret string, usually defined in `.env`.  
   The handler derives the ARIA key as `Base64.encode(KOROAD_CLIENT_SECRET.getBytes("UTF-8"))` and passes it to `ARIACipher256`.
+
+## AWS Invoke Test Examples
+With the function deployed (and `KOROAD_CLIENT_SECRET` set), you can test it similarly to `nice-pos-service/test_path`:
+
+```bash
+# Encrypt test
+serverless invoke -f crypt --stage dev --path test_path/test_encrypt.json
+
+# Decrypt test (first replace encryptedBody in test_decrypt.json
+# with the value returned from the encrypt call or Koroad)
+serverless invoke -f crypt --stage dev --path test_path/test_decrypt.json
+```
 
 ## Lambda Request/Response Contract
 The same function supports both encrypt and decrypt modes via the `mode` field.

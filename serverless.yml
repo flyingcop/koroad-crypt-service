@@ -1,5 +1,7 @@
 service: koroad-crypt-service
 
+useDotenv: true
+
 frameworkVersion: '3'
 
 provider:
@@ -7,7 +9,7 @@ provider:
   runtime: java11
   stage: ${opt:stage, 'dev'}
   region: ap-northeast-2
-  memorySize: 512
+  memorySize: 1024
   timeout: 10
   environment:
     KOROAD_CLIENT_SECRET: ${env:KOROAD_CLIENT_SECRET}

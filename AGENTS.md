@@ -5,6 +5,7 @@
 - `src/main/java/com/koroad/crypt`: Java sources for the AWS Lambda handler and crypto service.
 - `sample/encryptLibTest1.jsp`: Legacy JSP example showing how to encrypt/decrypt payloads with the library.
 - `DriverLicenseInformation–VerificationSystemHTTPIntegrationGuide_V1.6.pdf`: Official integration guide; treat as the canonical reference.
+- `test_path/*.json`: Sample Lambda event payloads for manual encrypt/decrypt testing.
 - New Java or JSP code should live in conventional folders (for example, `src/main/java`, `src/main/webapp`, `src/test/java`) rather than modifying the JAR.
 
 ## Build, Test, and Development Commands

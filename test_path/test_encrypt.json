@@ -1,0 +1,19 @@
+{
+  "mode": "ENCRYPT",
+  "requestId": "local-encrypt-req-1",
+  "clientId": "nice-pos-service-dev",
+  "payload": {
+    "licenses": [
+      {
+        "f_license_no": "1212345612",
+        "f_resident_name": "홍길동",
+        "f_resident_date": "123456",
+        "f_seq_no": "123456",
+        "f_licn_con_code": "11",
+        "f_from_date": "20170728",
+        "f_to_date": "20170728"
+      }
+    ]
+  }
+}
+
