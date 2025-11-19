@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+dependencies {
+    implementation files('lib/dlv_koroad.jar')
+
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.11.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+tasks.register('buildZip', Zip) {
+    archiveBaseName = 'koroad-crypt-service'
+
+    from compileJava
+    from processResources
+
+    into('lib') {
+        from configurations.runtimeClasspath
+        from 'lib/dlv_koroad.jar'
+    }
+}
+
+build.dependsOn tasks.named('buildZip')
+
+test {
+    useJUnitPlatform()
+}
