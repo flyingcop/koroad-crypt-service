@@ -68,5 +68,26 @@ public class MainResponse {
     public void setEncryptedBody(String encryptedBody) {
         this.encryptedBody = encryptedBody;
     }
+
+    @Override
+    public String toString() {
+        String str = "MainResponse: {";
+        str += "mode=" + mode + ", ";
+        str += "requestId=" + requestId + ", ";
+        str += "status=" + status + ", ";
+        str += "errorCode=" + errorCode + ", ";
+        str += "errorMessage=" + errorMessage + ", ";
+        str += "payload=" + payload + ", ";
+        str += "encryptedBody=" + encryptedBody + "}";
+        if (payload != null) {
+            for (DriverLicenseInfo license : payload.getLicenses()) {
+                str += "License: {licenseNo=" + license.getLicenseNo() + ", residentName=" + license.getResidentName()
+                        + ", residentDate=" + license.getResidentDate() + ", seqNo=" + license.getSeqNo()
+                        + ", licenseConCode=" + license.getLicenseConCode() + ", fromDate=" + license.getFromDate()
+                        + ", toDate=" + license.getToDate() + "}, ";
+            }
+        }
+        return str;
+    }
 }
 

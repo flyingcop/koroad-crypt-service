@@ -1,7 +1,9 @@
 package com.koroad.crypt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DriverLicenseInfo {
 
     @JsonProperty("f_license_no")
@@ -84,4 +86,3 @@ public class DriverLicenseInfo {
         this.toDate = toDate;
     }
 }
-

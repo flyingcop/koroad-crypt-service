@@ -11,7 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.util.List;
 
+import java.util.logging.Logger;
+
 public class KoroadCryptoService {
+
+    private static final Logger logger = Logger.getLogger(KoroadCryptoService.class.getName());
 
     private final ARIACipher256 cipher;
     private final ObjectMapper objectMapper;
@@ -36,6 +40,7 @@ public class KoroadCryptoService {
                 throw new IllegalArgumentException("payload.licenses must not be null");
             }
             String json = objectMapper.writeValueAsString(licenses);
+            logger.info("encrypt, licenses json: " + json);
             byte[] plainBytes = json.getBytes(StandardCharsets.UTF_8);
             byte[] encryptedBytes = cipher.encrypt(plainBytes);
             return Base64.encode(encryptedBytes);
@@ -49,6 +54,7 @@ public class KoroadCryptoService {
             if (encryptedBody == null || encryptedBody.isEmpty()) {
                 throw new IllegalArgumentException("encryptedBody must not be null or empty");
             }
+            logger.info("decrypt, encryptedBody: " + encryptedBody);
             byte[] encryptedBytes = Base64.decode(encryptedBody);
             byte[] decryptedBytes = cipher.decrypt(encryptedBytes);
             String json = new String(decryptedBytes, StandardCharsets.UTF_8);

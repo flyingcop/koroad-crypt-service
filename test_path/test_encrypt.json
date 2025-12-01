@@ -1,5 +1,6 @@
 {
   "mode": "ENCRYPT",
+  "secret": "8117a5d75e9909eb7858b5638803d72c707fb744",
   "requestId": "local-encrypt-req-1",
   "clientId": "nice-pos-service-dev",
   "payload": {
